@@ -1,68 +1,73 @@
 # 🛡️ Safety Sync Flow
 
 ## 🧭 Overview
-**Safety Sync Flow** is a Microsoft Power Automate flow designed to run at scheduled intervals to fetch safety-related reports from an external safety management system via HTTP calls. The data is parsed, transformed, and then stored in the Quattrofy SQL Database, where it powers real-time reporting via Power BI dashboards embedded into the Quattrofy platform.
+**Safety Sync Flow** is a Microsoft Power Automate flow that runs on a scheduled basis to fetch and sync safety reports from a third-party safety management system into the internal Quattrofy platform. This data is used to generate comprehensive, real-time Power BI dashboards for leadership and safety teams.
 
 ## 💡 Objective
-To automate the synchronization of key safety data between the third-party safety software and the internal Quattrofy system. The flow reduces manual reporting tasks, improves data visibility for leadership, and eliminates the need for expensive customizations on the external platform.
+To automate the synchronization of safety-related data (incidents, FLHAs, inspections, and hazard IDs) from an external system into Quattrofy. The flow significantly reduces manual work for the Safety department and enhances decision-making with live data visualizations.
 
 ## ✨ Features
-- Scheduled execution (every few hours)
-- HTTP GET calls to a safety system’s Open API
-- Data extraction, transformation, and normalization
-- Writes directly to Quattrofy’s Azure SQL Database
-- Logs each sync operation for traceability
-- Integration with Power BI for safety analytics dashboards
+- Scheduled trigger every few hours
+- HTTP GET requests to external safety API endpoints
+- JSON data parsing and transformation
+- Inserts into Azure SQL staging and production tables
+- Logs sync status and sends alert emails
+- Drives real-time Power BI dashboards
+- Robust error handling and retry logic
 
-## 🧪 Data Extracted
-- **Incident Reports**
-- **FLHA (Field Level Hazard Assessments)**
-- **Safety Inspections**
-- **Project Safety Metrics**
-- **Date, Location, Risk Level, Resolutions**
+## 📊 Power BI Dashboards
+This project enabled the creation of **three fully interactive dashboards**:
+
+1. **Near Misses vs Incidents Overview**
+   - Pie and bar charts for type of incidents
+   - Incident frequency over time
+   - Filters for date, type, and severity
+   - Ratio comparisons between near misses and incidents
+
+2. **Incidents by Project**
+   - Breakdown of incidents per project
+   - Graphs for incidents by day and project
+   - Interactive map with incident locations
+   - Timeline analysis and heat maps
+
+3. **Hazard ID Submissions**
+   - Bar charts showing submissions per project
+   - Trends over time by week/month
+   - Submission volumes by location
+
+> These dashboards were developed collaboratively:
+> - **Data Engineering:** Built by me through flow automation and Azure SQL integration
+> - **Dashboard Design:** Created by the Project Controls Manager using Power BI
 
 ## ⚙️ Tech Stack
 
-| Category        | Technologies |
-|----------------|--------------|
-| **Automation** | ![Power Automate](https://img.shields.io/badge/Power%20Automate-0089D6?logo=Microsoft%20Power%20Automate&logoColor=white&style=for-the-badge) |
-| **API Access** | ![REST API](https://img.shields.io/badge/REST%20API-0052CC?logo=postman&logoColor=white&style=for-the-badge) |
-| **Database**   | ![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?logo=microsoft-sql-server&logoColor=white&style=for-the-badge), ![Azure SQL](https://img.shields.io/badge/Azure%20SQL-0078D4?logo=microsoft-azure&logoColor=white&style=for-the-badge) |
-| **Visualization** | ![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?logo=powerbi&logoColor=black&style=for-the-badge) |
-| **Hosting**    | ![Microsoft Azure](https://img.shields.io/badge/Azure-0078D4?logo=microsoft-azure&logoColor=white&style=for-the-badge) |
+| Category            | Technologies |
+|---------------------|--------------|
+| **Automation**      | ![Power Automate](https://img.shields.io/badge/Power%20Automate-0089D6?logo=Microsoft%20Power%20Automate&logoColor=white&style=for-the-badge) |
+| **API Integration** | ![REST API](https://img.shields.io/badge/REST%20API-0052CC?logo=postman&logoColor=white&style=for-the-badge) |
+| **Database**        | ![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?logo=microsoft-sql-server&logoColor=white&style=for-the-badge) ![Azure SQL](https://img.shields.io/badge/Azure%20SQL-0078D4?logo=microsoft-azure&logoColor=white&style=for-the-badge) |
+| **Visualization**   | ![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?logo=powerbi&logoColor=black&style=for-the-badge) |
+| **Hosting**         | ![Microsoft Azure](https://img.shields.io/badge/Azure-0078D4?logo=microsoft-azure&logoColor=white&style=for-the-badge) |
 
 ## 🔄 Flow Logic
-1. **Trigger:** Recurring (every X hours)
-2. **HTTP Request:** Pull latest records from `/incidents`, `/flha`, and `/inspections` endpoints
-3. **Data Processing:** Clean and reshape JSON data into relational format
-4. **Insert:** Push the cleaned data into staging tables in Azure SQL
-5. **Log & Notify:** Log the run results and send success/failure summary via email
+1. **Trigger:** Recurs every X hours
+2. **Pull Data:** API calls to `/incidents`, `/flha`, `/hazard-ids`
+3. **Parse & Clean:** Normalize incoming JSON into relational schema
+4. **Insert to DB:** Push data into Azure SQL for reporting
+5. **Logging:** Record sync results and notify stakeholders
 
-## 📊 Power BI Integration
-All transferred safety data is visualized in Quattrofy’s **Safety Dashboard**. 
+## 📈 Results & Impact
+- ⏱️ Reduced manual data entry by 95%
+- 📉 Lowered dashboard update delays from days to minutes
+- 📊 Enabled leadership to access real-time safety insights
+- 🧠 Improved risk response with better data visibility
 
-This module was developed collaboratively:
-- You handled **data extraction**, **API transformation**, and **database ingestion**
-- The **Project Controls Manager** developed the Power BI dashboards, formulas, visualizations, and UX design
-
-The resulting dashboard allows executives to:
-- View safety performance by project and department
-- Track incident trends and resolution time
-- Monitor FLHA and inspection frequency
-- Identify compliance gaps in near real-time
-
-## 🤖 Impact
-- ⏳ Reduced manual entry time by 95%
-- 📈 Provided high-level insight into safety metrics
-- 💬 Enabled directors to make proactive HSE decisions
-- 💸 Eliminated external dev costs by building in-house sync flow
-
-## 🔐 Notes
-- Built-in failure alerts and retry policies
-- Can be extended to pull additional safety datasets
-- Optimized for low-maintenance and security (OAuth tokens for API)
+## 🔐 Security & Reliability
+- Encrypted HTTP headers and credentials
+- Retry logic for failed syncs
+- Logs each run in a secure audit trail
 
 ## 🔗 Related Projects
-- `Quattrofy` – Main Web Application
-- `Safety Dashboards (Power BI)` – Interactive visualizations
-- `Sync Projects Flow` – Similar syncing architecture
+- `Quattrofy` – Main enterprise system
+- `Safety Power BI Dashboards` – Real-time visualizations
+- `Project Sync Flow` – Schedules system-wide data consistency
