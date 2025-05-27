@@ -6,6 +6,14 @@
 ## 💡 Objective
 To automate the synchronization of safety-related data (incidents, FLHAs, inspections, and hazard IDs) from an external system into Quattrofy. The flow significantly reduces manual work for the Safety department and enhances decision-making with live data visualizations.
 
+### Flow
+![Screenshot](./assets/1.jpg)
+
+### Dashboard
+![Screenshot](./assets/2.jpg)
+
+---
+
 ## ✨ Features
 - Scheduled trigger every few hours
 - HTTP GET requests to external safety API endpoints
@@ -14,6 +22,8 @@ To automate the synchronization of safety-related data (incidents, FLHAs, inspec
 - Logs sync status and sends alert emails
 - Drives real-time Power BI dashboards
 - Robust error handling and retry logic
+
+---
 
 ## 📊 Power BI Dashboards
 This project enabled the creation of **three fully interactive dashboards**:
@@ -39,6 +49,8 @@ This project enabled the creation of **three fully interactive dashboards**:
 > - **Data Engineering:** Built by me through flow automation and Azure SQL integration
 > - **Dashboard Design:** Created by the Project Controls Manager using Power BI
 
+---
+
 ## ⚙️ Tech Stack
 
 | Category            | Technologies |
@@ -49,6 +61,8 @@ This project enabled the creation of **three fully interactive dashboards**:
 | **Visualization**   | ![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?logo=powerbi&logoColor=black&style=for-the-badge) |
 | **Hosting**         | ![Microsoft Azure](https://img.shields.io/badge/Azure-0078D4?logo=microsoft-azure&logoColor=white&style=for-the-badge) |
 
+---
+
 ## 🔄 Flow Logic
 1. **Trigger:** Recurs every X hours
 2. **Pull Data:** API calls to `/incidents`, `/flha`, `/hazard-ids`
@@ -56,16 +70,22 @@ This project enabled the creation of **three fully interactive dashboards**:
 4. **Insert to DB:** Push data into Azure SQL for reporting
 5. **Logging:** Record sync results and notify stakeholders
 
+---
+
 ## 📈 Results & Impact
 - ⏱️ Reduced manual data entry by 95%
 - 📉 Lowered dashboard update delays from days to minutes
 - 📊 Enabled leadership to access real-time safety insights
 - 🧠 Improved risk response with better data visibility
 
+---
+
 ## 🔐 Security & Reliability
 - Encrypted HTTP headers and credentials
 - Retry logic for failed syncs
 - Logs each run in a secure audit trail
+
+---
 
 ## 🔗 Related Projects
 - `Quattrofy` – Main enterprise system
