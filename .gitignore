@@ -1,0 +1,2 @@
+# Ignore all directories named 'sourcecode' at any level
+**/sourcecode/
